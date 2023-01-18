@@ -7,37 +7,36 @@ import java.sql.ResultSet;
 
 public class DBConnection  {
 
-	public void getConnection() throws Exception {
-		//1. id
+	public static Connection getConnection() throws Exception {
+		//1. 접속 정보 준비
+		
+		// 1) id
 		String username = "hr";
 		
-		//2. pw
+		// 2) pw
 		String password = "hr";
 		
-		//3. url 정보
+		// 3) url 정보
+		//String url = "jdbc:oracle:thin:@ip:port:1521/ServiceName";
+		//String url = "jdbc:oracle:thin:@ip:port:SID";
 		String url = "jdbc:oracle:thin:@localhost:1521/XEPDB1";
 		
-		//4. driver
+		// 4) driver		//driver는 생략해도 쓸 수 있음
 		String driver = "oracle.jdbc.driver.OracleDriver";
 		
 		Class.forName(driver);
 		
+
 		Connection connection = DriverManager.getConnection(url, username, password);
+		return connection;
 		
-		String sql = "SELECT * FROM LOCATIONS";
-		PreparedStatement st = connection.prepareStatement(sql);
-		ResultSet rs = st.executeQuery();
 		
-		while(rs.next()) {
-			System.out.println(rs.getInt("LOCATION_ID"));
-			System.out.println(rs.getString("STREET_ADDRESS"));
-			System.out.println(rs.getString("POSTAL_CODE"));
-			System.out.println(rs.getString("CITY"));
-			System.out.println(rs.getString("STATE_PROVINCE"));
-			System.out.println(rs.getString("COUNTRY_ID"));
-			
-		}
-		
+	}
+	
+	public static void disConnect(ResultSet rs, PreparedStatement st, Connection connection)  throws Exception {
+		rs.close();
+		st.close();
+		connection.close();
 	}
 	
 }
