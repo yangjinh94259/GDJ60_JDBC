@@ -3,6 +3,7 @@ package com.iu.main.locations;
 import java.util.ArrayList;
 
 public class LocationView {
+	
 	public void view (String msg) {
 		System.out.println(msg);
 	}

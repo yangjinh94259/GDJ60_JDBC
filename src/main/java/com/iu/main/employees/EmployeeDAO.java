@@ -8,47 +8,53 @@ import java.util.ArrayList;
 import com.iu.main.util.DBConnection;
 
 public class EmployeeDAO {
-
-	public EmployeeDTO getDetail(int employee_id) throws Exception{
-		EmployeeDTO employeeDTO = null;
+	
+	//method 1 : query 1
+	//list
+	public ArrayList<EmployeeDTO> getList() throws Exception{
+		ArrayList<EmployeeDTO> ar = new ArrayList<EmployeeDTO>();
 		
+		//1. DB연결
 		Connection connection = DBConnection.getConnection();
 		
-		String sql = "SELECT * FROM EMPLOYEES WHERE EMPLOYEE_ID = ?";
+		//2. Query문 생성
+		String sql = "SELECT EMPLOYEE_ID, FIRST_NAME, LAST_NAME, JOB_ID, DEPARTMENT_ID FROM EMPLOYEES ORDER BY HIRE_DATE DESC";
 		
+		//3. 미리 전송
 		PreparedStatement st = connection.prepareStatement(sql);
 		
-		st.setInt(1, employee_id);
+		//4. ?
 		
+		//5. 최종 전송 및 결과 처리
 		ResultSet rs = st.executeQuery();
 		
-		if(rs.next()) {
-			employeeDTO = new EmployeeDTO();
+		while(rs.next()) {
+			EmployeeDTO employeeDTO = new EmployeeDTO();
 			employeeDTO.setEmployee_id(rs.getInt("EMPLOHYEE_ID"));
 			employeeDTO.setFirst_name(rs.getString("FIRST_NAME"));
 			employeeDTO.setLast_name(rs.getString("LAST_NAME"));
-			employeeDTO.setEmail(rs.getString("EMAIL"));
-			employeeDTO.setPhone_number(rs.getString("PHONE_NUMBER"));
-			employeeDTO.setHire_date(rs.getDate("HIRE_DATE"));
 			employeeDTO.setJob_id(rs.getString("JOB_ID"));
-			employeeDTO.setSalary(rs.getInt("SALARY"));
-			employeeDTO.setCommission_pct(rs.getString("COMMISSION_PCT"));
-			employeeDTO.setManager_id(rs.getInt("MANAGER_ID"));
 			employeeDTO.setDepartment_id(rs.getInt("DEPARTMENT_ID"));
+			
+			ar.add(employeeDTO);
 		}
+		
+		//6. 연결 해제
 		DBConnection.disConnect(rs, st, connection);
 		
-		return employeeDTO;
+		return ar;
 	}
 	
-	public ArrayList<EmployeeDTO> getList() throws Exception{
+	public ArrayList<EmployeeDTO> getFind(String search) throws Exception{
 		ArrayList<EmployeeDTO> ar = new ArrayList<EmployeeDTO>();
 		
 		Connection connection = DBConnection.getConnection();
 		
-		String sql = "SELECT EMPLOYEE_ID, FIRST_NAME, LAST_NAME, JOB_ID, DEPARTMENT_ID FROM EMPLOYEES ORDER BY HIRE_DATE DESC";
+		String sql = "SELECT * FROM EMPLOYEES WHERE LAST_NAME LIKE '%'||?||'%' ";
 		
 		PreparedStatement st = connection.prepareStatement(sql);
+		
+		st.setString(1, search);
 		
 		ResultSet rs = st.executeQuery();
 		
@@ -57,18 +63,13 @@ public class EmployeeDAO {
 			employeeDTO.setEmployee_id(rs.getInt("EMPLOHYEE_ID"));
 			employeeDTO.setFirst_name(rs.getString("FIRST_NAME"));
 			employeeDTO.setLast_name(rs.getString("LAST_NAME"));
-			employeeDTO.setEmail(rs.getString("EMAIL"));
-			employeeDTO.setPhone_number(rs.getString("PHONE_NUMBER"));
 			employeeDTO.setHire_date(rs.getDate("HIRE_DATE"));
 			employeeDTO.setJob_id(rs.getString("JOB_ID"));
 			employeeDTO.setSalary(rs.getInt("SALARY"));
-			employeeDTO.setCommission_pct(rs.getString("COMMISSION_PCT"));
-			employeeDTO.setManager_id(rs.getInt("MANAGER_ID"));
 			employeeDTO.setDepartment_id(rs.getInt("DEPARTMENT_ID"));
 			
 			ar.add(employeeDTO);
 		}
-		
 		DBConnection.disConnect(rs, st, connection);
 		
 		return ar;
