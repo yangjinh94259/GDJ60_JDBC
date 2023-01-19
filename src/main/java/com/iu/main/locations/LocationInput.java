@@ -9,6 +9,19 @@ public class LocationInput {
 		sc = new Scanner(System.in);
 	}
 	
+	//수정
+	public LocationDTO updateData() {
+		LocationDTO locationDTO = new LocationDTO();
+		System.out.println("수정할 주소 입력");
+		locationDTO.setStreet_address(sc.next());
+		System.out.println("수정할 우편 번호 입력");
+		locationDTO.setPostal_code(sc.next());
+		System.out.println("수정할 지역 번호 입력");
+		locationDTO.setLocation_id(sc.nextInt());
+		
+		return locationDTO;
+	}
+	
 	//추가
 	public LocationDTO setData() {
 		LocationDTO locationDTO = new LocationDTO();

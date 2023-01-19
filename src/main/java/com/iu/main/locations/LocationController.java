@@ -7,15 +7,18 @@ public class LocationController {
 	private Scanner sc;
 	private LocationDAO locationDAO;
 	private LocationView locationView;
+	private LocationInput locationInput;
 	
 	public LocationController() {
 		this.sc = new Scanner(System.in);
 		this.locationDAO = new LocationDAO();
 		this.locationView = new LocationView();
+		this.locationInput = new LocationInput();
 	}
 	
 	public void start() throws Exception{
 		boolean check = true;
+		LocationDTO locationDTO = null;
 		ArrayList<LocationDTO> ar = null;
 		
 		while(check) {
@@ -36,7 +39,7 @@ public class LocationController {
 			case 2:
 				System.out.println("지역 번호 입력");
 				select = sc.nextInt();
-				LocationDTO locationDTO = locationDAO.getDetail(select);
+				locationDTO = locationDAO.getDetail(select);
 				
 				if(locationDTO != null) {
 					locationView.view(locationDTO);
@@ -54,6 +57,9 @@ public class LocationController {
 				
 				break;
 			case 5:
+				
+				break;
+			case 6:
 				
 				break;
 			default:

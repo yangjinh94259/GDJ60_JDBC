@@ -9,6 +9,26 @@ import com.iu.main.util.DBConnection;
 
 public class EmployeeDAO {
 	
+	//월급의 평균
+	public ResultSet getAvg() throws Exception {
+		Connection con = DBConnection.getConnection();
+		
+		String sql = "SELECT AVG(SALARY), SUM(SALARY) FROM EMPLOYEES";
+		
+		PreparedStatement st = con.prepareStatement(sql);
+		
+		ResultSet rs = st.executeQuery();
+		
+		rs.next();
+		
+		System.out.println(rs.getDouble(1));
+		System.out.println(rs.getDouble(2));
+		
+		DBConnection.disConnect(rs, st, con);
+		
+		return rs;
+	}
+	
 	//method 1 : query 1
 	//list
 	public ArrayList<EmployeeDTO> getList() throws Exception{

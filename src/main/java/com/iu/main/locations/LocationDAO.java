@@ -10,6 +10,26 @@ import com.iu.main.util.DBConnection;
 
 public class LocationDAO {
 	
+	//update
+	public int updateData(LocationDTO locationDTO) throws Exception{
+		Connection con = DBConnection.getConnection();
+		
+		String sql = "UPDATE LOCATIONS SET STREET_ADDRESS = ?, POSTAL_CODE = ?"
+				+ " WHERE LOCATION_ID = ?";
+		
+		PreparedStatement st = con.prepareStatement(sql);
+		
+		st.setString(1, locationDTO.getStreet_address());
+		st.setString(2, locationDTO.getPostal_code());
+		st.setInt(3, locationDTO.getLocation_id());
+		
+		int result = st.executeUpdate();
+		
+		DBConnection.disConnect(st, con);
+		
+		return result;
+	}
+	
 	//delete
 	public int deleteData(LocationDTO locationDTO) throws Exception{
 		Connection connection = DBConnection.getConnection();
@@ -31,14 +51,16 @@ public class LocationDAO {
 	public int setData(LocationDTO locationDTO) throws Exception{
 		Connection con = DBConnection.getConnection();
 		
-		String sql = "INSERT INTO LOCATIONS (LOCATION_ID, STREET_ADDRESS, CITY)"	//다 씀
-				+ " VALUES (LOCATIONS_SEQ.NEXTVAL, ?,?,?)";
+		String sql = "INSERT INTO LOCATIONS (LOCATION_ID, STREET_ADDRESS, POSTAL_CODE, CITY, STATE_PROVINCE, COUNTRY_ID)"	//다 씀
+				+ " VALUES (LOCATIONS_SEQ.NEXTVAL, ?,?,?,?,?)";
 		
 		PreparedStatement st = con.prepareStatement(sql);
 		
-		st.setInt(1, locationDTO.getLocation_id());
-		st.setString(2, locationDTO.getStreet_address());
+		st.setString(1, locationDTO.getStreet_address());
+		st.setString(2, locationDTO.getPostal_code());
 		st.setString(3, locationDTO.getCity());
+		st.setString(4, locationDTO.getState_province());
+		st.setString(5, locationDTO.getCountry_id());
 		
 		int result = st.executeUpdate();
 		
