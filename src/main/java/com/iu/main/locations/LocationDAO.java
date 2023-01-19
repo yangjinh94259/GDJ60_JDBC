@@ -31,7 +31,7 @@ public class LocationDAO {
 	public int setData(LocationDTO locationDTO) throws Exception{
 		Connection con = DBConnection.getConnection();
 		
-		String sql = "INSERT INTO LOCATIONS (LOCATION_ID, STREET_ADDRESS, CITY)"
+		String sql = "INSERT INTO LOCATIONS (LOCATION_ID, STREET_ADDRESS, CITY)"	//다 씀
 				+ " VALUES (LOCATIONS_SEQ.NEXTVAL, ?,?,?)";
 		
 		PreparedStatement st = con.prepareStatement(sql);
