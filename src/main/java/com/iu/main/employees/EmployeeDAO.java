@@ -4,16 +4,21 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import javax.print.attribute.HashAttributeSet;
 
 import com.iu.main.util.DBConnection;
 
 public class EmployeeDAO {
 	
 	//월급의 평균
-	public ResultSet getAvg() throws Exception {
+	public HashMap<String, Double> getAvg() throws Exception {
+		HashMap<String, Double> map = new HashMap<String, Double>();
+		
 		Connection con = DBConnection.getConnection();
 		
-		String sql = "SELECT AVG(SALARY), SUM(SALARY) FROM EMPLOYEES";
+		String sql = "SELECT AVG(SALARY)*12+100 AS A, SUM(SALARY) FROM EMPLOYEES";
 		
 		PreparedStatement st = con.prepareStatement(sql);
 		
@@ -21,12 +26,16 @@ public class EmployeeDAO {
 		
 		rs.next();
 		
-		System.out.println(rs.getDouble(1));
-		System.out.println(rs.getDouble(2));
+		//1. List, Array
+		//2. DTO(Class)
+		//3. Map(Key, Value)
+		
+		map.put("avg", rs.getDouble("A"));
+		map.put("sum", rs.getDouble(2));
 		
 		DBConnection.disConnect(rs, st, con);
 		
-		return rs;
+		return map;
 	}
 	
 	//method 1 : query 1
@@ -83,7 +92,7 @@ public class EmployeeDAO {
 			employeeDTO.setEmployee_id(rs.getInt("EMPLOHYEE_ID"));
 			employeeDTO.setFirst_name(rs.getString("FIRST_NAME"));
 			employeeDTO.setLast_name(rs.getString("LAST_NAME"));
-			employeeDTO.setHire_date(rs.getDate("HIRE_DATE"));
+			employeeDTO.setHire_date(rs.getString("HIRE_DATE"));
 			employeeDTO.setJob_id(rs.getString("JOB_ID"));
 			employeeDTO.setSalary(rs.getInt("SALARY"));
 			employeeDTO.setDepartment_id(rs.getInt("DEPARTMENT_ID"));
