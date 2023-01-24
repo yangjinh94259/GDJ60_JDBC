@@ -3,17 +3,20 @@ package com.iu.main;
 import java.util.Scanner;
 
 import com.iu.main.departments.DepartmentController;
+import com.iu.main.employees.EmployeeController;
 import com.iu.main.locations.LocationController;
 
 public class FrontController {
 	private Scanner sc;
 	private DepartmentController departmentController;
 	private LocationController locationController;
+	private EmployeeController employeeController;
 	
 	public FrontController() {
 		this.sc = new Scanner(System.in);
 		this.departmentController = new DepartmentController();
 		this.locationController = new LocationController();
+		this.employeeController = new EmployeeController();
 	}
 	
 	public void start() throws Exception{
@@ -34,7 +37,7 @@ public class FrontController {
 				this.locationController.start();
 				break;
 			case 3:
-				//this.employeeCon
+				//this.employeeController.start();
 				break;
 			default:
 				check = false;

@@ -62,14 +62,16 @@ public class DepartmentController {
 				departmentDTO = departmentInput.deleteData();
 				select = departmentDAO.deleteData(departmentDTO);
 				String msg = "삭제 실패";
+				
 				if(select > 0) {
 					msg = "삭제 성공";
 				}
 				departmentView.view(msg);
 				break;
 			case 5:
-				departmentDTO= departmentInput.updateData();
+				departmentDTO = departmentInput.updateData();
 				select = departmentDAO.updateData(departmentDTO);
+				
 				if(select > 0) {
 					 departmentView.view("수정 성공");
 				}

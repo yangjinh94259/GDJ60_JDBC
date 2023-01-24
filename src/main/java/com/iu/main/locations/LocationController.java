@@ -54,13 +54,36 @@ public class LocationController {
 				ar = locationDAO.getFind(add);
 				break;
 			case 4:
+				locationDTO = locationInput.setData();
+				select = locationDAO.setData(locationDTO);
 				
+				if(select > 0) {
+					locationView.view("추가 성공");
+				}
+				else {
+					locationView.view("추가 실패");
+				}
 				break;
 			case 5:
+				locationDTO = locationInput.deleteData();
+				select = locationDAO.deleteData(locationDTO);
+				String msg = "삭제 실패";
 				
+				if(select > 0) {
+					msg = "삭제 성공";
+				}
+				locationView.view(msg);
 				break;
 			case 6:
+				locationDTO = locationInput.updateData();
+				select = locationDAO.updateData(locationDTO);
 				
+				if(select > 0) {
+					locationView.view("수정 성공");
+				}
+				else {
+					System.out.println("수정 실패");
+				}
 				break;
 			default:
 				check = false;
